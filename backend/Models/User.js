@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, default: "Hey! there I am using PingUp." },
     profile_picture: { type: String, default: "" },
     cover_photo: { type: String, default: "" },
-    location: { type: String, required: true },
+    location: { type: String, required: true  },
     followers: [{ type: String, ref: "User" }],
     following: [{ type: String, ref: "User" }],
     connections: [{ type: String, ref: "User" }],
