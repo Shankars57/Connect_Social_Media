@@ -8,6 +8,7 @@ const syncUserCreation = inngest.createFunction(
   { id: "sync-user-from-clerk" },
   { event: "clerk/user.created" }, // check actual event name in Clerk dashboard
   async ({ event }) => {
+    await connectDB();
     const { id, first_name, last_name, email_addresses, image_url } =
       event.data;
 
