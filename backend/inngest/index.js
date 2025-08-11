@@ -7,7 +7,7 @@ export const inngest = new Inngest({ id: "pingup-app" });
 
 const syncUserCreation = inngest.createFunction(
   { id: "sync-user-from-clerk" },
-  { event: "clear/user.created" },
+  { event: "clerk/user.created" },
   async ({ event }) => {
     const { id, first_name, last_name, email_addresses, image_url } =
       event.data;
@@ -29,7 +29,7 @@ const syncUserCreation = inngest.createFunction(
 );
 const syncUserUpdate = inngest.createFunction(
   { id: "update-user-from-clerk" },
-  { event: "clear/user.updated" },
+  { event: "clerk/user.updated" },
   async ({ event }) => {
     const { id, first_name, last_name, email_addresses, image_url } =
       event.data;
@@ -43,7 +43,7 @@ const syncUserUpdate = inngest.createFunction(
 );
 const syncUserDelete = inngest.createFunction(
   { id: "delete-user-from-clerk" },
-  { event: "clear/user.deleted" },
+  { event: "clerk/user.deleted" },
   async ({ event }) => {
     const { id } = event.data;
 
