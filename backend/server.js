@@ -14,7 +14,7 @@ app.use(cors());
 app.use(clerkMiddleware());
 
 app.get("/", (req, res) => {
-  res.write(`<h1>Server is Running</h1>`);
+  res.write(`<h1>Server is Running on 5000</h1>`);
   res.send();
 });
 
