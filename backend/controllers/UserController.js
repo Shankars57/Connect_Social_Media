@@ -3,6 +3,8 @@ import fs from "fs";
 import User from "../Models/User.js";
 import { imagekit } from "../Config/images.js";
 import Connection from "../Models/Connection.js";
+import post from "../Models/Post.js";
+import { inngest } from "../inngest/index.js";
 
 /**
  * Get logged-in user's data
@@ -238,9 +240,14 @@ export const sendConnectionRequest = async (req, res) => {
     });
 
     if (!connection) {
-      await connection.create({
+      const newConnection = await connection.create({
         from_user_id: userId,
         to_user_id: id,
+      });
+
+      await inngest.send({
+        name: "app/connection-request",
+        data: { connectionId: newConnection._id },
       });
 
       return res.json({ success: true, message: "Request send successful" });
@@ -250,6 +257,7 @@ export const sendConnectionRequest = async (req, res) => {
         message: "You are already connected with this user",
       });
     }
+
     return res.json({
       success: false,
       message: "You connection Request is in pending",
@@ -326,6 +334,30 @@ export const getUserConnections = async (req, res) => {
     return res.json({
       success: true,
       message: "Connection accepted successfully",
+    });
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: error,
+    });
+  }
+};
+
+export const getUserProfiles = async (req, res) => {
+  try {
+    const { profileId } = req.body;
+
+    const profile = await User.findById(profileId);
+    if (!profile) {
+      res.json({ success: false, message: "Profile not found." });
+    }
+
+    const posts = await post.find({ user: profileId }).populate("user");
+
+    return res.json({
+      success: true,
+      profile,
+      posts,
     });
   } catch (error) {
     return res.json({

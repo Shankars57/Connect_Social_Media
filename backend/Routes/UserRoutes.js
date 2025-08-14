@@ -1,10 +1,12 @@
 import express from "express";
+import { getRecentMessages } from "../controllers/MessageController.js";
 import {
   acceptConnectionRequest,
   discoverUsers,
   followUsers,
   getUserConnections,
   getUserData,
+  getUserProfiles,
   sendConnectionRequest,
   unFollowUser,
   updateUserData,
@@ -29,4 +31,7 @@ userRouter.post("/unfollow", protect, unFollowUser);
 userRouter.post("/connect", protect, sendConnectionRequest);
 userRouter.post("/accept", protect, acceptConnectionRequest);
 userRouter.get("/connections", protect, getUserConnections);
+userRouter.post("/profiles", getUserProfiles);
+userRouter.get("/recent-messages", protect, getRecentMessages);
+
 export default userRouter;

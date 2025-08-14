@@ -6,6 +6,9 @@ import { inngest, functions } from "./inngest/index.js";
 import { serve } from "inngest/express";
 import { clerkMiddleware } from "@clerk/express";
 import userRouter from "./Routes/UserRoutes.js";
+import postRouter from "./Routes/PostROutes.js";
+import storyRouter from "./Routes/StoryRouters.js";
+import messageRouter from "./Routes/messageRoutes.js";
 const app = express();
 
 await connectDB();
@@ -22,6 +25,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/user", userRouter);
+app.use("/api/post", postRouter);
+app.use("/api/story", storyRouter);
+app.use("/api/message", messageRouter);
 
 app.listen(5000, (req, res) => {
   console.log("Server is running on : 5000");
